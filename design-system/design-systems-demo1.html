@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design Systems — Interactive Demo</title>
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+
+
+
+  <style>
+    :root {
+      --blue: #0c0a33;
+      --blue-dk: #2b2952;
+      --blue-lt: #d7d5ff;
+      --secondary: #F1E9D2;
+      --secondary-dk: #E4D09B;
+      --teal: #1D9E75;
+      --teal-lt: #EAF3DE;
+      --red: #E24B4A;
+      --red-lt: #FCEBEB;
+      --amber: #EF9F27;
+      --amber-lt: #FAEEDA;
+      --gray: #888780;
+      --gray-lt: #F1EFE8;
+      --surface: #F7F7F5;
+      --card: #FFFFFF;
+      --border: rgba(0, 0, 0, 0.08);
+      --text: #1a1a18;
+      --muted: #666662;
+      --faint: #999994;
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: var(--surface);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--blue-dk);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-brand {
+      font-weight: 800;
+      font-size: 18px;
+      color: #fff;
+    }
+
+    .nav-brand span {
+      color: #85B7EB;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 2px;
+    }
+
+    .nav-tab {
+      padding: 6px 14px;
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.6);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: 'Roboto', sans-serif;
+      border: none;
+      background: transparent;
+    }
+
+    .nav-tab:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-tab.active {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--blue-dk) 0%, var(--blue) 60%, #2b2952 100%);
+      padding: 4rem 2rem 3rem;
+      text-align: center;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='1.5' fill='rgba(255,255,255,0.08)'/%3E%3C/svg%3E");
+    }
+
+    .hero h1 {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 500;
+      position: relative;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.75);
+      margin-top: 0.75rem;
+      position: relative;
+    }
+
+    .hero-badges {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .hero-badge {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #fff;
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    .panel {
+      display: none;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .panel-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.4rem;
+    }
+
+    .panel-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      margin-bottom: 2rem;
+      margin-top: 0.4rem;
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .card-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--faint);
+      margin-bottom: 1rem;
+    }
+
+    /* ── COLORS ── */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 10px;
+    }
+
+    .swatch {
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: transform 0.12s, box-shadow 0.12s;
+    }
+
+    .swatch:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .swatch-block {
+      height: 64px;
+    }
+
+    .swatch-info {
+      padding: 8px 10px;
+      background: #fff;
+    }
+
+    .swatch-name {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .swatch-hex {
+      font-size: 11px;
+      color: var(--muted);
+      font-family: monospace;
+    }
+
+    .swatch-use {
+      font-size: 10px;
+      color: var(--faint);
+      margin-top: 2px;
+    }
+
+    /* ── TYPOGRAPHY ── */
+    .type-row {
+      display: flex;
+      align-items: baseline;
+      gap: 1.5rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .type-row:last-child {
+      border-bottom: none;
+    }
+
+    .type-meta {
+      min-width: 90px;
+      font-size: 11px;
+      color: var(--faint);
+      font-family: monospace;
+      flex-shrink: 0;
+    }
+
+    .font-switcher {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .font-btn {
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      cursor: pointer;
+      transition: all 0.12s;
+    }
+
+    .font-btn:hover,
+    .font-btn.active {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+    }
+
+    /* ── SPACING ── */
+    .spacing-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+
+    .spacing-label {
+      min-width: 70px;
+      font-size: 12px;
+      color: var(--muted);
+      text-align: right;
+      font-family: monospace;
+    }
+
+    .spacing-visual {
+      height: 32px;
+      background: var(--blue);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      transition: width 0.4s cubic-bezier(.4, 0, .2, 1);
+      min-width: 32px;
+    }
+
+    .spacing-visual span {
+      font-size: 11px;
+      color: #fff;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .spacing-desc {
+      font-size: 11px;
+      color: var(--faint);
+    }
+
+    /* ── COMPONENTS ── */
+    .comp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 600px) {
+      .comp-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s;
+      font-family: 'Roboto', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--blue-dk);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(24, 95, 165, 0.3);
+    }
+
+    .btn-secondary {
+      background: var(--secondary);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--secondary-dk);
+    }
+
+    .btn-danger {
+      background: var(--red);
+      color: #fff;
+    }
+
+    .btn-danger:hover {
+      background: #c03b3a;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--blue);
+      border: 1px solid var(--blue);
+    }
+
+    .btn-ghost:hover {
+      background: var(--blue-lt);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .badge-green {
+      background: var(--teal-lt);
+      color: #1D6B55;
+    }
+
+    .badge-amber {
+      background: var(--amber-lt);
+      color: #7A5010;
+    }
+
+    .badge-blue {
+      background: var(--blue-lt);
+      color: var(--blue-dk);
+    }
+
+    .badge-red {
+      background: var(--red-lt);
+      color: #A32D2D;
+    }
+
+    .badge-gray {
+      background: var(--gray-lt);
+      color: #4A4A47;
+    }
+
+    .input-demo {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border);
+      font-size: 14px;
+      font-family: 'Roboto', sans-serif;
+      color: var(--text);
+      background: var(--card);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .input-demo:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(24, 95, 165, 0.12);
+    }
+
+    .toggle-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      user-select: none;
+      margin-bottom: 10px;
+    }
+
+    .toggle-track {
+      width: 40px;
+      height: 24px;
+      border-radius: 12px;
+      background: #D3D1C7;
+      position: relative;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+
+    .toggle-track.on {
+      background: var(--blue);
+    }
+
+    .toggle-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #fff;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      transition: left 0.2s;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .toggle-track.on .toggle-thumb {
+      left: 19px;
+    }
+
+    .toggle-label {
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--blue-lt);
+      color: var(--blue-dk);
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ── GRID PANEL ── */
+    .grid-controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .grid-btn {
+      padding: 7px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      cursor: pointer;
+      transition: all 0.12s;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .grid-btn:hover,
+    .grid-btn.active {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+    }
+
+    #grid-canvas {
+      display: grid;
+      gap: 10px;
+      transition: grid-template-columns 0.4s;
+    }
+
+    .grid-cell {
+      background: var(--blue-lt);
+      border: 1px solid var(--blue-lt);
+      border-radius: var(--radius-sm);
+      padding: 18px 12px;
+      text-align: center;
+      font-size: 16px;
+      color: var(--blue-dk);
+      font-weight: 600;
+    }
+
+    .grid-cell.wide {
+      grid-column: 1 / -1;
+      background: var(--blue-dk);
+      color: #fff;
+      border-color: var(--blue-dk);
+    }
+
+    /* ── PROBLEMS ── */
+    .vs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    @media (max-width: 540px) {
+      .vs-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .vs-box {
+      border-radius: var(--radius);
+      padding: 1.25rem;
+    }
+
+    .vs-bad {
+      background: var(--red-lt);
+      border: 1px solid #F09595;
+    }
+
+    .vs-good {
+      background: var(--teal-lt);
+      border: 1px solid #9FE1CB;
+    }
+
+    .vs-head {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .vs-bad .vs-head {
+      color: #A32D2D;
+    }
+
+    .vs-good .vs-head {
+      color: #1D6B55;
+    }
+
+    .vs-item {
+      font-size: 13px;
+      color: var(--text);
+      margin-bottom: 7px;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      line-height: 1.4;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--blue);
+    }
+
+    .stat-lbl {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: var(--text);
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+      z-index: 999;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    #toast.show {
+      opacity: 1;
+    }
+
+    /* ── STEP INDICATOR ── */
+    .steps {
+      display: flex;
+      gap: 0;
+      margin-bottom: 1.5rem;
+    }
+
+    .step {
+      flex: 1;
+      text-align: center;
+      position: relative;
+    }
+
+    .step::before {
+      content: '';
+      position: absolute;
+      top: 18px;
+      left: 50%;
+      width: 100%;
+      height: 2px;
+      background: var(--border);
+      z-index: 0;
+    }
+
+    .step:last-child::before {
+      display: none;
+    }
+
+    .step-num {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--blue-lt);
+      color: var(--blue-dk);
+      font-weight: 700;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 8px;
+      position: relative;
+      z-index: 1;
+      border: 2px solid var(--blue);
+      font-family: 'Syne', sans-serif;
+    }
+
+    .step-lbl {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.3;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="nav-brand">Design<span>Systems</span></div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="show('colors',this)">Colors</button>
+      <button class="nav-tab" onclick="show('type',this)">Typography</button>
+      <button class="nav-tab" onclick="show('spacing',this)">Spacing</button>
+      <button class="nav-tab" onclick="show('components',this)">Components</button>
+      <button class="nav-tab" onclick="show('grid',this)">Grid</button>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <h1>Design Systems</h1>
+    <p>A reusable design &amp; code framework — live interactive demo</p>
+    <div class="hero-badges">
+      <span class="hero-badge">Colors</span>
+      <span class="hero-badge">Typography</span>
+      <span class="hero-badge">Spacing</span>
+      <span class="hero-badge">Components</span>
+      <span class="hero-badge">Grid</span>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- COLORS -->
+    <div class="panel active" id="panel-colors">
+      <div class="panel-title">Color Palette</div>
+      <div class="panel-sub">All colors are defined as CSS variables — one source of truth. Click any swatch to copy the
+        hex code.</div>
+
+      <div class="card">
+        <div class="card-title">Primary & Brand Colors</div>
+        <div class="color-grid">
+          <div class="swatch" onclick="copy('#185FA5','Primary Blue')">
+            <div class="swatch-block" style="background:var(--blue);"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Primary</div>
+              <div class="swatch-hex">#185FA5</div>
+              <div class="swatch-use">Buttons, links</div>
+            </div>
+          </div>
+          <div class="swatch" onclick="copy('#2b2952','Dark Blue')">
+            <div class="swatch-block" style="background:var(--blue-dk);"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Dark</div>
+              <div class="swatch-hex">#2b2952</div>
+              <div class="swatch-use">Hover states</div>
+            </div>
+          </div>
+          <div class="swatch" onclick="copy('#d7d5ff','Light Blue')">
+            <div class="swatch-block" style="background:var(--blue-lt); border-bottom:1px solid #B5D4F4;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Light</div>
+              <div class="swatch-hex">#d7d5ff</div>
+              <div class="swatch-use">Backgrounds</div>
+            </div>
+          </div>
+          <div class="swatch" onclick="copy('#1D9E75','Success')">
+            <div class="swatch-block" style="background:#1D9E75;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Success</div>
+              <div class="swatch-hex">#1D9E75</div>
+              <div class="swatch-use">Positive states</div>
+            </div>
+          </div>
+          <div class="swatch" onclick="copy('#E24B4A','Danger')">
+            <div class="swatch-block" style="background:#E24B4A;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Danger</div>
+              <div class="swatch-hex">#E24B4A</div>
+              <div class="swatch-use">Errors, delete</div>
+            </div>
+          </div>
+          <div class="swatch" onclick="copy('#EF9F27','Warning')">
+            <div class="swatch-block" style="background:#EF9F27;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Warning</div>
+              <div class="swatch-hex">#EF9F27</div>
+              <div class="swatch-use">Caution states</div>
+            </div>
+          </div>
+          <div class="swatch" onclick="copy('#888780','Neutral')">
+            <div class="swatch-block" style="background:#888780;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Neutral</div>
+              <div class="swatch-hex">#888780</div>
+              <div class="swatch-use">Muted text</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">CSS Tokens (how it's done in code)</div>
+        <pre
+          style="font-size:13px; color:#1a1a18; line-height:1.7; overflow-x:auto; font-family:monospace; background:#F1EFE8; padding:1rem; border-radius:8px;">:root {
+  --color-primary:  #0c0a33;
+  --color-success:  #1D9E75;
+  --color-danger:   #E24B4A;
+  --color-warning:  #EF9F27;
+  --color-neutral:  #888780;
+}</pre>
+      </div>
+    </div>
+
+    <!-- TYPOGRAPHY -->
+    <div class="panel" id="panel-type">
+      <div class="panel-title">Typography</div>
+      <div class="panel-sub">A strict type scale eliminates inconsistency. Pick a font family and see the full scale
+        below.</div>
+
+      <div class="card">
+        <div class="card-title">Change Font Family</div>
+        <div class="font-switcher">
+          <button class="font-btn active" onclick="setFont('Syne',this)">Syne (Display)</button>
+          <button class="font-btn" onclick="setFont(\'Roboto\',this)">Roboto (Body)</button>
+          <button class="font-btn" onclick="setFont('Georgia',this)">Georgia (Serif)</button>
+          <button class="font-btn" onclick="setFont('monospace',this)">Monospace</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Type Scale</div>
+        <div id="type-demo">
+          <div class="type-row">
+            <div class="type-meta">H1 · 36px<br>weight 700</div>
+            <span style="font-size:36px; font-weight:700; line-height:1.15;" id="t-h1">Design Systems</span>
+          </div>
+          <div class="type-row">
+            <div class="type-meta">H2 · 28px<br>weight 600</div>
+            <span style="font-size:28px; font-weight:600; line-height:1.2;" id="t-h2">Color Palette</span>
+          </div>
+          <div class="type-row">
+            <div class="type-meta">H3 · 22px<br>weight 600</div>
+            <span style="font-size:22px; font-weight:600;" id="t-h3">UI Components</span>
+          </div>
+          <div class="type-row">
+            <div class="type-meta">Body · 16px<br>weight 400</div>
+            <span style="font-size:16px; font-weight:400; line-height:1.7; max-width:480px;" id="t-body">A design system
+              provides shared design tokens, reusable components, and clear documentation — ensuring everyone builds
+              from the same foundation.</span>
+          </div>
+          <div class="type-row">
+            <div class="type-meta">Small · 13px<br>weight 400</div>
+            <span style="font-size:13px; color:#888780;" id="t-sm">Last updated May 2026 · v2.1.0</span>
+          </div>
+          <div class="type-row">
+            <div class="type-meta">Label · 11px<br>uppercase</div>
+            <span
+              style="font-size:11px; letter-spacing:0.1em; text-transform:uppercase; font-weight:600; color:#888780;"
+              id="t-lbl">Section Label</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPACING -->
+    <div class="panel" id="panel-spacing">
+      <div class="panel-title">Spacing System</div>
+      <div class="panel-sub">Every gap, margin, and padding is a multiple of 8px. This creates visual rhythm and
+        consistency.</div>
+
+      <div class="card">
+        <div class="card-title">8px Base Grid</div>
+        <div class="spacing-row"><span class="spacing-label">4px · xs</span>
+          <div class="spacing-visual" style="width:4%"><span>4</span></div><span class="spacing-desc">Icon gaps, tight
+            labels</span>
+        </div>
+        <div class="spacing-row"><span class="spacing-label">8px · sm</span>
+          <div class="spacing-visual" style="width:8%"><span>8</span></div><span class="spacing-desc">Button padding,
+            list gaps</span>
+        </div>
+        <div class="spacing-row"><span class="spacing-label">16px · md</span>
+          <div class="spacing-visual" style="width:16%"><span>16</span></div><span class="spacing-desc">Card padding,
+            section gaps</span>
+        </div>
+        <div class="spacing-row"><span class="spacing-label">24px · lg</span>
+          <div class="spacing-visual" style="width:24%"><span>24</span></div><span class="spacing-desc">Component
+            spacing</span>
+        </div>
+        <div class="spacing-row"><span class="spacing-label">32px · xl</span>
+          <div class="spacing-visual" style="width:32%"><span>32</span></div><span class="spacing-desc">Section
+            spacing</span>
+        </div>
+        <div class="spacing-row"><span class="spacing-label">48px · 2xl</span>
+          <div class="spacing-visual" style="width:48%"><span>48</span></div><span class="spacing-desc">Page
+            sections</span>
+        </div>
+        <div class="spacing-row"><span class="spacing-label">64px · 3xl</span>
+          <div class="spacing-visual" style="width:64%"><span>64</span></div><span class="spacing-desc">Major layout
+            gaps</span>
+        </div>
+        <div class="spacing-row"><span class="spacing-label">96px · 4xl</span>
+          <div class="spacing-visual" style="width:80%"><span>96</span></div><span class="spacing-desc">Hero padding,
+            large sections</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">CSS Spacing Tokens</div>
+        <pre
+          style="font-size:13px; line-height:1.8; font-family:monospace; background:#F1EFE8; padding:1rem; border-radius:8px; overflow-x:auto;">:root {
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  16px;
+  --space-lg:  24px;
+  --space-xl:  32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+}</pre>
+      </div>
+    </div>
+
+    <!-- COMPONENTS -->
+    <div class="panel" id="panel-components">
+      <div class="panel-title">UI Components</div>
+      <div class="panel-sub">Build once, reuse everywhere. All components use the same color and spacing tokens.</div>
+
+      <div class="comp-grid">
+        <!-- Buttons -->
+        <div class="card">
+          <div class="card-title">Buttons</div>
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <button class="btn btn-primary">✦ Primary Action</button>
+            <button class="btn btn-secondary">Secondary</button>
+            <button class="btn btn-ghost">Outline Button</button>
+            <button class="btn btn-danger">🗑 Delete</button>
+          </div>
+        </div>
+
+        <!-- Badges -->
+        <div class="card">
+          <div class="card-title">Status Badges</div>
+          <div style="display:flex; flex-direction:column; gap:8px; align-items:flex-start;">
+            <span class="badge badge-green">✓ Published</span>
+            <span class="badge badge-amber">⏳ Pending</span>
+            <span class="badge badge-blue">ℹ Beta</span>
+            <span class="badge badge-red">✕ Failed</span>
+            <span class="badge badge-gray">◌ Draft</span>
+          </div>
+        </div>
+
+        <!-- Input -->
+        <div class="card">
+          <div class="card-title">Form Input</div>
+          <label style="font-size:12px; color:#666662; display:block; margin-bottom:6px;">Email address</label>
+          <input class="input-demo" type="email" placeholder="you@example.com" />
+          <label style="font-size:12px; color:#666662; display:block; margin:12px 0 6px;">Password</label>
+          <input class="input-demo" type="password" placeholder="••••••••" />
+          <button class="btn btn-primary" style="margin-top:12px; width:100%; justify-content:center;">Sign in</button>
+        </div>
+
+        <!-- Toggles -->
+        <div class="card">
+          <div class="card-title">Toggle Switches</div>
+          <div class="toggle-wrap" onclick="tog(this)">
+            <div class="toggle-track on">
+              <div class="toggle-thumb"></div>
+            </div>
+            <span class="toggle-label">Dark mode</span>
+          </div>
+          <div class="toggle-wrap" onclick="tog(this)">
+            <div class="toggle-track">
+              <div class="toggle-thumb"></div>
+            </div>
+            <span class="toggle-label">Email notifications</span>
+          </div>
+          <div class="toggle-wrap" onclick="tog(this)">
+            <div class="toggle-track on">
+              <div class="toggle-thumb"></div>
+            </div>
+            <span class="toggle-label">Auto-save</span>
+          </div>
+          <div class="toggle-wrap" onclick="tog(this)">
+            <div class="toggle-track">
+              <div class="toggle-thumb"></div>
+            </div>
+            <span class="toggle-label">Two-factor auth</span>
+          </div>
+        </div>
+
+        <!-- User Card -->
+        <div class="card" style="grid-column: span 2;">
+          <div class="card-title">User Profile Card</div>
+          <div
+            style="display:flex; align-items:center; gap:14px; padding:12px; background:var(--surface); border-radius:10px; border:1px solid var(--border);">
+            <div class="avatar" style="width:52px; height:52px; font-size:16px;">SS</div>
+            <div style="flex:1;">
+              <div style="font-weight:600; font-size:15px;">Satish Senjaliya</div>
+              <div style="font-size:13px; color:var(--muted);">Web Designer · Surat, Gujarat</div>
+            </div>
+            <span class="badge badge-green">● Active</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRID -->
+    <div class="panel" id="panel-grid">
+      <div class="panel-title">Grid Layout System</div>
+      <div class="panel-sub">A 12-column grid gives structure to every page. Toggle the layout below to see how content
+        adapts.</div>
+
+      <div class="card">
+        <div class="card-title">Column Layout</div>
+        <div class="grid-controls">
+          <button class="grid-btn active" onclick="setGrid(1,this)">1 Column</button>
+          <button class="grid-btn" onclick="setGrid(2,this)">2 Columns</button>
+          <button class="grid-btn" onclick="setGrid(3,this)">3 Columns</button>
+          <button class="grid-btn" onclick="setGrid(4,this)">4 Columns</button>
+        </div>
+        <div id="grid-canvas" style="grid-template-columns:1fr;">
+          <div class="grid-cell wide">Header / Navigation</div>
+          <div class="grid-cell">Card A</div>
+          <div class="grid-cell">Card B</div>
+          <div class="grid-cell">Card C</div>
+          <div class="grid-cell">Card D</div>
+          <div class="grid-cell">Card E</div>
+          <div class="grid-cell">Card F</div>
+          <div class="grid-cell wide">Footer</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">CSS Grid Code</div>
+        <pre
+          style="font-size:13px; line-height:1.8; font-family:monospace; background:#F1EFE8; padding:1rem; border-radius:8px; overflow-x:auto;">.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);   /* 16px */
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}</pre>
+      </div>
+    </div>
+
+
+
+  </main>
+
+  <div id="toast"></div>
+
+  <script>
+    function show(id, btn) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('panel-' + id).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    function copy(hex, name) {
+      try { navigator.clipboard.writeText(hex); } catch (e) { }
+      const t = document.getElementById('toast');
+      t.textContent = name + ' — ' + hex + ' copied!';
+      t.classList.add('show');
+      clearTimeout(window._tt);
+      window._tt = setTimeout(() => t.classList.remove('show'), 2200);
+    }
+
+    function setFont(f, btn) {
+      ['t-h1', 't-h2', 't-h3', 't-body', 't-sm', 't-lbl'].forEach(id => {
+        document.getElementById(id).style.fontFamily = f;
+      });
+      document.querySelectorAll('.font-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function setGrid(cols, btn) {
+      document.getElementById('grid-canvas').style.gridTemplateColumns = 'repeat(' + cols + ', 1fr)';
+      document.querySelectorAll('.grid-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function tog(wrap) {
+      const track = wrap.querySelector('.toggle-track');
+      track.classList.toggle('on');
+    }
+  </script>
+</body>
+
+</html>
